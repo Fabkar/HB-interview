@@ -29,5 +29,5 @@ def minOperations(n):
 
     return int(sum(prime_factors))
 
-if __name__ == '__name__':
-    minOperations(8)
+    if __name__ == '__name__':
+        minOperations(8)
