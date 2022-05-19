@@ -1,78 +1,46 @@
 #!/usr/bin/python3
-""" Function to check is safe to place a queen
-"""
-import sys
+""" module docs """
+from sys import argv, exit
 
+if __name__ == "__main__":
 
-def printB(brd):
-    """
-    print board
-    """
-    r = []
-    for x in brd:
-        for c in x:
-            if c == 1:
-                r.append([brd.index(x), x.index(c)])
-    print(r)
-
-
-def is_safe(brd, row, col, n):
-    """
-    is_safe
-    """
-    for i in range(col):
-
-        if brd[row][i] + brd[row][i + 1] != 0:
-            return False
-
-    for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
-        if brd[i][j] == 1:
-            return False
-
-    for i, j in zip(range(row, n, 1), range(col, -1, -1)):
-        if brd[i][j] == 1:
-            return False
-
-    return True
-
-
-def nqueen(brd, col, n):
-    """
-    nqueen
-    """
-
-    if (col >= n):
-        printB(brd)
-
-    for x in range(n):
-        if is_safe(brd, x, col, n):
-            brd[x][col] = 1
-            if nqueen(brd, col+1, n):
-                return True
-            brd[x][col] = 0
-
-    return False
-
-
-# initial run starting from the col 0!
-def main():
-    """
-    Main
-    """
-    if len(sys.argv) != 2:
+    if len(argv) != 2:
         print("Usage: nqueens N")
         exit(1)
-    if sys.argv[1].isnumeric():
-        n = int(sys.argv[1])
-    else:
+
+    queens = argv[1]
+
+    try:
+        queens = int(queens)
+    except ValueError:
         print("N must be a number")
         exit(1)
-    if n < 4:
+
+    if queens < 4:
         print("N must be at least 4")
         exit(1)
-    brd = [[0 for x in range(n)] for y in range(n)]
-    nqueen(brd, 0, n)
 
+    solution = []
 
-if __name__ == '__main__':
-    main()
+    def nqueens(row, queens, solution):
+        """ method docs """
+        if (row == queens):
+            print(solution)
+        else:
+            for col in range(queens):
+                pos = [row, col]
+                if validposition(solution, pos):
+                    solution.append(pos)
+                    nqueens(row + 1, queens, solution)
+                    solution.remove(pos)
+
+    def validposition(solution, position):
+        """ method docs """
+        for queen in solution:
+            if queen[1] == position[1] or \
+                (queen[0] - queen[1]) == (position[0] - position[1]) or \
+                    (queen[0] + queen[1]) == (position[0] + position[1]):
+                return False
+        return True
+
+    nqueens(0, queens, solution)
