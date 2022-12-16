@@ -1,23 +1,22 @@
 #!/usr/bin/python3
-"""Making Change problem
-"""
+""" 0. Change comes from within """
 
 
 def makeChange(coins, total):
-    """Returns the fewest number of coins needed to meet a given total
-    Args:
-        coins: array of integers representing the coin values
-        total: the total to find coins for
+    """ Given a pile of coins of different values, determine the fewest number
+        of coins needed to meet a given amount total.
     """
-    if total <= 0:
+    if total < 1:
         return 0
-
-    array = [float('inf')] * (total + 1)
-    array[0] = 0
-
-    for i in range(1, len(array)):
-        for j in range(len(coins)):
-            if coins[j] <= i:
-                array[i] = min(array[i], array[i - coins[j]] + 1)
-
-    return array[i] if array[i] != float('inf') else -1
+    coins.sort()
+    coins.reverse()
+    fewest = 0
+    for coin in coins:
+        if total <= 0:
+            break
+        buff = total // coin
+        fewest += buff
+        total -= (buff * coin)
+    if total != 0:
+        return -1
+    return fewest
