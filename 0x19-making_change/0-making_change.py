@@ -1,23 +1,34 @@
 #!/usr/bin/python3
-"""Making Change problem
+"""
+Make change module
 """
 
 
 def makeChange(coins, total):
-    """Returns the fewest number of coins needed to meet a given total
+    """Given a pile of coins of different values,
+    determine the fewest number of coins
+    needed to meet a given amount 'total'
     Args:
-        coins: array of integers representing the coin values
-        total: the total to find coins for
+        coins ([list]): a list of the values of the coins in your possession
+        total ([number]): amount
+    Return: fewest number of coins needed to meet total
     """
     if total <= 0:
         return 0
 
-    array = [float('inf')] * (total + 1)
-    array[0] = 0
+    coins.sort(reverse=True)
 
-    for i in range(1, len(array)):
-        for j in range(len(coins)):
-            if coins[j] <= i:
-                array[i] = min(array[i], array[i - coins[j]] + 1)
+    i, ncoins = (0, 0)
+    cpy_total = total
+    len_coins = len(coins)
 
-    return array[i] if array[i] != float('inf') else -1
+    while(i < len_coins and cpy_total > 0):
+        if (cpy_total - coins[i]) >= 0:
+            cpy_total -= coins[i]
+            ncoins += 1
+        else:
+            i += 1
+
+    check = cpy_total > 0 and ncoins > 0
+    return -1 if check or ncoins == 0 else ncoins
+    
