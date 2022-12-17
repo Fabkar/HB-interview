@@ -1,4 +1,5 @@
 #include "regex.h"
+
 /**
 * regex_match - checks whether a given pattern matches a given string.
 * @str: given string
