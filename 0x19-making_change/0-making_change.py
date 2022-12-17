@@ -39,3 +39,4 @@ def makeChange(coins, total):
                 memo.add(current + coin)
 
     return -1
+        
